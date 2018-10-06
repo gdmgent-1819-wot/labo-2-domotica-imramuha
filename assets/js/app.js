@@ -8,7 +8,8 @@ function App() {
         _roomState,
         _backdoor,
         _lamps,
-        _outlets;
+        _outlets,
+        _uid;
 
 
 
@@ -26,6 +27,19 @@ function App() {
         generateHouse();
         roomState();
     }
+
+    // check authentication 
+    firebase.auth().onAuthStateChanged(function(user) {
+        _uid = null;
+        if (user) {
+            // User is signed in.
+            _uid = user.uid;
+        } else {
+            // if not logged in, back to login page
+            _uid = null;
+            window.location.replace('auth.html')
+        }
+    });
 
     // create the layout of our house in divs
     function generateHouse () {
@@ -62,7 +76,7 @@ function App() {
             tempStr +=  `<div class="humidity">Humidity: ${snapshot.val().humidity}% </div>`
             
          });
-        setTimeout(function(){ _roomState.innerHTML = tempStr; }, 1000);
+        setTimeout(function(){ _roomState.innerHTML = tempStr; }, 2000);
     }
 
 
@@ -73,10 +87,12 @@ function App() {
         _frontdoor = document.querySelectorAll('.pixel.frontdoor-open');
 
         if(_frontdoor.length == 0) {
+            document.querySelector('.frontdoor').style.backgroundColor = "green";
             for(let i = 0; i < _frontdoor_closed.length; i++) {
                 _frontdoor_closed[i].className = "pixel frontdoor-open"
             }
         } else {
+            document.querySelector('.frontdoor').style.backgroundColor = "red";
               for(let i = 0; i < _frontdoor.length; i++) {
                 _frontdoor[i].className = "pixel frontdoor-closed"
             }
@@ -89,11 +105,13 @@ function App() {
         _backdoor = document.querySelectorAll('.pixel.backdoor-open');
 
         if(_backdoor.length == 0) {
+            document.querySelector('.backdoor').style.backgroundColor = "green";
             for(let i = 0; i < _backdoor_closed.length; i++) {
                 _backdoor_closed[i].className = "pixel backdoor-open"
             }
         } else {
-              for(let i = 0; i < _backdoor.length; i++) {
+            document.querySelector('.backdoor').style.backgroundColor = "red";
+            for(let i = 0; i < _backdoor.length; i++) {
                 _backdoor[i].className = "pixel backdoor-closed"
             }
         }
@@ -105,11 +123,13 @@ function App() {
         _outlets = document.querySelectorAll('.pixel.outlets-on');
 
         if(_outlets.length == 0) {
+            document.querySelector('.outlets').style.backgroundColor = "green";
             for(let i = 0; i < _outlets_off.length; i++) {
                 _outlets_off[i].className = "pixel outlets-on"
             }
         } else {
-              for(let i = 0; i < _outlets.length; i++) {
+            document.querySelector('.outlets').style.backgroundColor = "red";
+            for(let i = 0; i < _outlets.length; i++) {
                 _outlets[i].className = "pixel outlets-off"
             }
         }
@@ -121,16 +141,42 @@ function App() {
         _lamps = document.querySelectorAll('.pixel.lamps-on');
 
         if(_lamps.length == 0) {
+            document.querySelector('.lamps').style.backgroundColor = "green";
             for(let i = 0; i < _lamps_off.length; i++) {
                 _lamps_off[i].className = "pixel lamps-on"
             }
         } else {
+            document.querySelector('.lamps').style.backgroundColor = "red";
               for(let i = 0; i < _lamps.length; i++) {
                 _lamps[i].className = "pixel lamps-off"
             }
         }
     })
 
+    function alertTheOwner() {
+        console.log('someone broke in!!')
+    }
+
+    // TODO: when someone breaks into our house
+    document.querySelector('.alert').addEventListener('click', function (item) {
+        let _interval =  setInterval(function(){ alertTheOwner() }, 3000);
+        let _clearInterval = clearInterval(_interval);
+
+        if(document.querySelector('.alert')) {
+            document.querySelector('.alert').className = "alertOn"
+            this._interval;
+
+        } else if (!document.querySelector('.alert')) {
+            document.querySelector('.alertOn').className = "alert"
+            _clearInterval;
+        }
+    })
+
+    
+    // logout function
+    document.querySelector('.logout').addEventListener('click', function () {
+        firebase.auth().signOut();
+    })
 
 
 

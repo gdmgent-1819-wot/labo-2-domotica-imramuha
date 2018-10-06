@@ -1,21 +1,30 @@
-firebase.auth().onAuthStateChanged(function(user) {
-  window.user = user;
+/*
+* FIREBASEUI - LOGIN
+*/
+const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-});
-  
-document.querySelector('#sign-in').addEventListener('click', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  var email = document.querySelector('#email').value;
-  var password = document.querySelector('#password').value
-  var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-  var auth = firebase.auth();
-  var currentUser = auth.currentUser;
+const uiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      // User successfully signed in.
+      // Return type determines whether we continue the redirect automatically
+      // or whether we leave that to developer to handle.
+      return true;
+    },
+    uiShown: function() {
+      // The widget is rendered.
+      // Hide the loader.
+      document.getElementById('loader').style.display = 'none';
+    }
+  },
+  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+  signInFlow: 'popup',
+  signInSuccessUrl: 'index.html',
+  signInOptions: [
+    // Leave the lines as is for the providers you want to offer your users.
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  ],
+};
 
-});
-
-document.querySelector('#sign-out').addEventListener('click', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  firebase.auth().signOut();
-});
+// The start method will wait until the DOM is loaded.
+ui.start('#firebaseui-auth-container', uiConfig);

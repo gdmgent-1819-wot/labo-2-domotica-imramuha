@@ -4,61 +4,43 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Domotica</title>
-
         <link rel="stylesheet" type="text/css" href="assets/css/app.css">
-    </head>
-    <body>
-        <form>
-                <div>
-                    <input id="email" type="text" placeholder="Email...">
-                </div>
-                <div>
-                    <input id="password" type="password" placeholder="Password...">
-                </div>
-                <div>
-                    <button id="sign-in">Sign In/Register</button>
-                    <button id="sign-out">Sign Out</button>
-                </div>
-            </form>
-
-        <hr>
-        <h1>Domotica</h1>
-
-        <div class="container">
-            
-
-        </div>
-        
-        <h3>Temperature & humidity</h3>
-        <div class="roomState"></div>
-
-        <button class="lamps">Lights</button>
-        <button class="outlets">Outlets</button>
-        <button class="frontdoor">Frontdoor</button>
-        <button class="backdoor">Backdoor</button>
-        <button class="alert">ALERT!</button>
-        <button class="safe">Safe</button>
-
-        <hr> 
-
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
         <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-        <script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
 
-        // Initialize Firebase
-        const config = {
-            apiKey: "AIzaSyAnhsp86mRYR9h1rD0IyCne9-XayTb-6B0",
-            authDomain: "labo2-imramuha-3aa68.firebaseapp.com",
-            databaseURL: "https://labo2-imramuha-3aa68.firebaseio.com",
-            projectId: "labo2-imramuha-3aa68",
-            storageBucket: "labo2-imramuha-3aa68.appspot.com",
-            messagingSenderId: "405845944010"
-        };
-        firebase.initializeApp(config);
-        </script>
-         <script src="assets/js/app.js"></script>
+        <title>Domotica</title>
+
+
+    </head>
+    <body>
+        <div class="screenContainer">
+            <h1>Domotica</h1>
+            <div class="container">
+                
+            </div>
+            
+            <h3>Temperature & humidity</h3>
+            <div class="roomState"></div> 
+        </div>
+
+        <div class="uiContainer">
+            <h3>Control your room</h3>
+            <hr>
+            <button class="lamps">Lights</button>
+            <button class="outlets">Outlets</button>
+            <button class="frontdoor">Frontdoor</button>
+            <button class="backdoor">Backdoor</button>
+            <button class="alert">Alert!</button>
+            <hr>
+            <button class="logout">Logout</button>
+        </div>
+
+        <script src="assets/js/config.js"></script>
+        <script src="assets/js/app.js"></script>
         
     </body>
 </html>
